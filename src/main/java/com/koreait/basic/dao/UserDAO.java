@@ -71,43 +71,43 @@ public class UserDAO {
     public static int updUser(UserEntity entity) {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = " UPDATE t_user SET ";
-        String changeVal = null;
-        if(entity.getUpw() != null && !"".equals(entity.getUpw())) {
-            sql += " upw = ? ";
-            changeVal = entity.getUpw();
-        } else if (entity.getProfileImg() != null && !"".equals(entity.getProfileImg())) {
-            sql += " profileImg = ? ";
-            changeVal = entity.getProfileImg();
-        }
-        sql += " WHERE iuser = ? ";
+        String sql = " UPDATE t_user SET profileImg = ? WHERE iuser = ? ";
+        String changeVal = entity.getProfileImg();
 
+        if(entity.getUpw() != null && !"".equals(entity.getUpw())) {
+            sql = sql.replace("profileImg", "upw");
+            changeVal = entity.getUpw();
+        }
         try {
             con = DbUtils.getCon();
             ps = con.prepareStatement(sql);
             ps.setString(1, changeVal);
             ps.setInt(2, entity.getIuser());
             return ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            DbUtils.close(con, ps);
-        }
+        } catch (Exception e) { e.printStackTrace();
+        } finally { DbUtils.close(con, ps); }
         return 0;
     }
     public static UserEntity selUser (UserEntity entity) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = " SELECT uid, nm, gender, rdt, profileImg FROM t_user WHERE iuser = ? ";
+        String sql = " SELECT iuser, uid, upw, nm, gender, rdt, profileImg FROM t_user WHERE ";
+
+        if(entity.getIuser() > 0) {
+            sql += "iuser = " + entity.getIuser();
+        } else {
+            sql += "uid = '" + entity.getUid() + "'";
+        }
         try {
             con = DbUtils.getCon();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, entity.getIuser());
             rs = ps.executeQuery();
             if(rs.next()) {
                 UserEntity vo = new UserEntity();
+                vo.setIuser(rs.getInt("iuser"));
                 vo.setUid(rs.getString("uid"));
+                vo.setUpw(rs.getString("upw"));
                 vo.setNm(rs.getString("nm"));
                 vo.setGender(rs.getInt("gender"));
                 vo.setRdt(rs.getString("rdt"));

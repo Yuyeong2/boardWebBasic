@@ -4,6 +4,7 @@ import com.koreait.basic.Utils;
 import com.koreait.basic.dao.UserDAO;
 import com.koreait.basic.user.model.LoginResult;
 import com.koreait.basic.user.model.UserEntity;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,25 +27,23 @@ public class UserLoginServlet extends HttpServlet {
         String upw = req.getParameter("upw");
         UserEntity entity = new UserEntity();
         entity.setUid(uid);
-        entity.setUpw(upw);
 
-        LoginResult lr = UserDAO.login(entity);
-                String err = null;
-        switch (lr.getResult()) {
-            case 1:
-                HttpSession session = req.getSession();
-                session.setAttribute("loginUser", lr.getLoginUser());
+        //LoginResult lr = UserDAO.login(entity);
+        String err = null;
+        UserEntity loginUser = UserDAO.selUser(entity);
+        if(loginUser == null) { //아이디 없음
+            err = "아이디를 확인해 주세요.";
+        } else {
+            String dbPw = loginUser.getUpw();
+            if(BCrypt.checkpw(upw, dbPw)) { //비밀번호 맞음
+                loginUser.setUpw(null);
+
+                req.getSession().setAttribute("loginUser", loginUser);
                 res.sendRedirect("/board/list");
                 return;
-            case 0:
-                err = "로그인에 실패하였습니다.";
-                break;
-            case 2:
-                err = "아이디를 확인해 주세요.";
-                break;
-            case 3:
+            } else { //비밀번호 틀림
                 err = "비밀번호를 확인해 주세요.";
-                break;
+            }
         }
         req.setAttribute("err", err);
         doGet(req, res);
