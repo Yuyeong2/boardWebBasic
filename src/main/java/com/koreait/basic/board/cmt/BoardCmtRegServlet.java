@@ -37,7 +37,7 @@ public class BoardCmtRegServlet extends HttpServlet {
         switch (result) {
             case 1:
                 if(entity.getIboard() != 0 ) {
-                    res.sendRedirect("/board/detail?nohits=1&iboard=" + iboard);
+                    res.sendRedirect("/board/detail2?nohits=1&iboard=" + iboard);
                     return;
                 }
                 break;

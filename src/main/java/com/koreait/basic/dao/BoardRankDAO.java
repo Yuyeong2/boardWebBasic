@@ -17,7 +17,7 @@ public class BoardRankDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "SELECT A.iboard, A.title, A.writer, A.hit, A.rdt" +
-                " , B.nm AS writerNm " +
+                " , B.nm AS writerNm, B.profileImg " +
                 " FROM t_board A " +
                 " INNER JOIN t_user B " +
                 " ON A.writer = B.iuser " +
@@ -42,6 +42,7 @@ public class BoardRankDAO {
                         .cnt(hit)
                         .rdt(rdt)
                         .writerNm(writerNm)
+                        .profileImg(rs.getString("profileImg"))
                         .build();
                 list.add(vo);
             }
@@ -57,7 +58,7 @@ public class BoardRankDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "SELECT A.iboard, A.title, A.writer, A.rdt, B.nm AS writerNm, C.cnt " +
+        String sql = "SELECT A.iboard, A.title, A.writer, A.rdt, B.nm AS writerNm, B.profileImg, C.cnt " +
                 "FROM t_board A INNER JOIN t_user B ON A.writer = B.iuser " +
                 "INNER JOIN " +
                 "( SELECT iboard, COUNT(icmt) AS cnt FROM t_board_cmt GROUP BY iboard ) C " +
@@ -74,6 +75,7 @@ public class BoardRankDAO {
                         .cnt(rs.getInt("cnt"))
                         .rdt(rs.getString("rdt"))
                         .writerNm(rs.getString("writerNm"))
+                        .profileImg(rs.getString("profileImg"))
                         .build();
                 list.add(vo);
             }
@@ -89,7 +91,7 @@ public class BoardRankDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "SELECT A.iboard, A.title, A.writer, A.rdt, B.nm AS writerNm, " +
+        String sql = "SELECT A.iboard, A.title, A.writer, A.rdt, B.nm AS writerNm, B.profileImg, " +
                 "C.cnt " +
                 "FROM t_board A " +
                 "INNER JOIN t_user B " +
@@ -121,6 +123,7 @@ public class BoardRankDAO {
                         .cnt(cnt)
                         .rdt(rdt)
                         .writerNm(writerNm)
+                        .profileImg(rs.getString("profileImg"))
                         .build();
                 list.add(vo);
             }

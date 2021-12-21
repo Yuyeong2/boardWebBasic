@@ -27,7 +27,7 @@ public class BoardCmtModServlet extends HttpServlet {
 
         int result = BoardCmtDAO.updBoardCmt(entity);
 
-        res.sendRedirect("/board/detail?nohits=1&iboard=" + iboard);
+        res.sendRedirect("/board/detail2?nohits=1&iboard=" + iboard);
 
     }
 }

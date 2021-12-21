@@ -1,3 +1,4 @@
+
 .cmtModContainer {
     display: none;
     position: fixed;
@@ -11,15 +12,7 @@
 }
 
 .cmtModContainer .cmtModBody {
-    background-color: white;
+    background-color: #fff;
     padding: 30px;
     border: 1px solid #4b4b4b;
 }
-table{ display: flex;  border-top: 1px solid #222; border-left: 0;border-right: 0; justify-content: center;}
-table th{background: #eee;border-top: 2px solid dodgerblue;}
-table *{border-color: #ddd;}
-table th:first-child,table td:first-child{border-left: 0;}
-table th:last-child,table td:last-child{border-right: 0;}
-
-.fav { color: #fab4b4; font-size: 20px; }
-.fav i:hover { cursor: pointer; color: cornflowerblue; }

@@ -4,7 +4,7 @@
         <div><input type="password" name="upw" placeholder="현재 비밀번호"></div>
         <div><input type="password" name="changedUpw" placeholder="변경 비밀번호"></div>
         <div><input type="password" name="changedUpwConfirm" placeholder="비밀번호 확인"></div>
-    </form>
     <div><input type="button" value="비밀번호 변경" id="submitBtn"></div>
+    </form>
 </div>
 <script src="/res/js/user/password.js"></script>
